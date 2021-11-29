@@ -1,8 +1,7 @@
 name: ZWADMIN
 on:
   push:
-    branches: [ develop ]
-    tags: ['release-v*']
+    branches: [ master ]
   workflow_dispatch:
 jobs:
     build_and_relase:
