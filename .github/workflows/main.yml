@@ -1,0 +1,47 @@
+name: TYNH
+on:
+  push:
+    branches: [ develop ]
+    tags: ['release-v*']
+  workflow_dispatch:
+jobs:
+    build_and_relase:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+        - uses: actions/setup-node@v2.1.4
+
+        - name: Build source
+          run: |
+            npm install
+            npm run build 
+
+        - name: tar package
+          uses: montudor/action-zip@v0.1.1
+          with:
+            args: zip -qq -r TYNH.zip . -i ./dist/*   
+
+        - name: tansfer and release
+          uses: wlixcc/SFTP-Deploy-Action@v1.0
+          with:
+            username: ${{secrets.HOST_USER}}
+            server: ${{ secrets.HOST }}
+            ssh_private_key: ${{ secrets.TENCENT_HOST_PRIVATE_KEY }} 
+            local_path: TYNH.zip
+            remote_path: '/home/zwAdmin/' 
+
+    clear_old_file: 
+      needs: [build_and_relase]
+      name: clear and renew
+      runs-on: ubuntu-latest
+      steps:
+        - name: clear the file and unzip
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.HOST }}
+            username: ${{ secrets.HOST_USER }}
+            key: ${{ secrets.TENCENT_HOST_PRIVATE_KEY }}
+            script: |
+              rm -r /usr/share/nginx/html/TYNH
+              unzip -qq -j /usr/share/nginx/html/TYNH.zip -d /usr/share/nginx/html/TYNH
+              rm -r /usr/share/nginx/html/TYNH.zip
