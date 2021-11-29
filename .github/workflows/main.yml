@@ -14,7 +14,7 @@ jobs:
         - name: Build source
           run: |
             npm install
-            npm run build 
+            npm run build --prod
 
         - name: tar package
           uses: montudor/action-zip@v0.1.1
