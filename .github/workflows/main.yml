@@ -19,7 +19,7 @@ jobs:
         - name: tar package
           uses: montudor/action-zip@v0.1.1
           with:
-            args: zip -qq -r TYNH.zip . -i ./dist/TYNH/*   
+            args: zip -qq -r TYNH.zip . -i ./dist/*   
 
         - name: tansfer and release
           uses: wlixcc/SFTP-Deploy-Action@v1.0
@@ -28,7 +28,7 @@ jobs:
             server: ${{ secrets.HOST }}
             ssh_private_key: ${{ secrets.TENCENT_HOST_PRIVATE_KEY }} 
             local_path: TYNH.zip
-            remote_path: '/usr/share/nginx/html/' 
+            remote_path: '/home/zwAdmin/' 
 
     clear_old_file: 
       needs: [build_and_relase]
