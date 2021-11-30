@@ -42,5 +42,5 @@ jobs:
             key: ${{ secrets.TENCENT_HOST_PRIVATE_KEY }}
             script: |
               rm -r /home/zwAdmin/prod
-              unzip -q /home/zwAdmin/ZWADMIN.zip
+              unzip -q /home/zwAdmin/ZWADMIN.zip -d /home/zwAdmin/
               rm -r /home/zwAdmin/ZWADMIN.zip
