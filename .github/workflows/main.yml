@@ -18,7 +18,7 @@ jobs:
         - name: tar package
           uses: montudor/action-zip@v0.1.1
           with:
-            args: zip -q -r ZWADMIN.zip . -i ./dist/zhiweiAdmin/*
+            args: zip -q -r ZWADMIN.zip ./dist/zhiweiAdmin
 
         - name: tansfer and release
           uses: wlixcc/SFTP-Deploy-Action@v1.0
@@ -42,5 +42,5 @@ jobs:
             key: ${{ secrets.TENCENT_HOST_PRIVATE_KEY }}
             script: |
               rm -r /home/zwAdmin/prod
-              unzip -qq -j /home/zwAdmin/ZWADMIN.zip -d /home/zwAdmin/prod
+              unzip -q /home/zwAdmin/ZWADMIN.zip
               rm -r /home/zwAdmin/ZWADMIN.zip
