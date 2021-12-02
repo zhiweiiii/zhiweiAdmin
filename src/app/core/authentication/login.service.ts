@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpParams } from '@angular/common/http';
 import { Token, User } from './interface';
 import { Menu } from '@core';
 
@@ -10,7 +10,10 @@ export class LoginService {
   constructor(protected http: HttpClient) {}
 
   login(email: string, password: string, rememberMe = false) {
-    return this.http.post<Token | any>('/auth/login', { email, password, remember_me: rememberMe });
+    const params = new HttpParams()
+    .set('username', email)
+    .set('password', password);
+    return this.http.get<Token | any>('/mall/auth/login',{params} );
   }
 
   refresh(params: any) {
