@@ -10,6 +10,7 @@ export class LoginService {
   constructor(protected http: HttpClient) {}
 
   login(email: string, password: string, rememberMe = false) {
+    console.error("232")
     const params = new HttpParams()
     .set('username', email)
     .set('password', password);
