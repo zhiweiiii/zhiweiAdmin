@@ -18,6 +18,7 @@ export class TokenService {
   constructor(private store: LocalStorageService, private factory: TokenFactory) {}
 
   private get token(): BaseToken {
+   
     if (!this._token) {
       this._token = this.factory.create(this.store.get(this.key));
     }
@@ -34,6 +35,7 @@ export class TokenService {
   }
 
   triggerRefresh(): Observable<BaseToken> {
+
     return this.change$.pipe(
       filter(() => this.token.needRefresh()),
       switchMap(() => timer(this.token.getRefreshTime() * 1000)),
@@ -87,8 +89,8 @@ export class TokenService {
   private save(response: Token | any, triggerChange = false): TokenService {
     this._token = undefined;
 
-    const exp = response.expires_in ? { exp: currentTimestamp() + response.expires_in } : {};
-    const token: Token = Object.assign({ access_token: '', token_type: 'Bearer' }, response, exp);
+    const exp = currentTimestamp() + 60*60*1000 ;
+    const token: Token = Object.assign({ access_token: response.data, token_type: 'Bearer' }, response, exp);
 
     this.store.set(this.key, token);
     this.change$.next(triggerChange);

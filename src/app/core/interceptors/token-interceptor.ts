@@ -24,6 +24,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const handler = () => {
+      console.log(1)
       if (request.url.includes('/auth/logout')) {
         this.router.navigateByUrl('/auth/login');
       }
@@ -32,7 +33,7 @@ export class TokenInterceptor implements HttpInterceptor {
         this.router.navigateByUrl('/dashboard');
       }
     };
-
+    console.log(2)
     if (this.tokenService.valid() && this.shouldAppendToken(request.url)) {
       return next
         .handle(
@@ -43,6 +44,7 @@ export class TokenInterceptor implements HttpInterceptor {
         )
         .pipe(
           catchError((error: HttpErrorResponse) => {
+            console.log(4)
             if (error.status === 401) {
               this.tokenService.clear();
             }
@@ -51,7 +53,7 @@ export class TokenInterceptor implements HttpInterceptor {
           tap(() => handler())
         );
     }
-
+    console.log(3)
     return next.handle(request).pipe(tap(() => handler()));
   }
 

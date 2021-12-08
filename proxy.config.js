@@ -1,12 +1,12 @@
 // https://angular.io/guide/build#proxying-to-a-backend-server
 
 const PROXY_CONFIG = {
-  '/users/**': {
-    target: 'https://api.github.com',
+  "/api": {
+    target: 'http://119.45.24.33/',
     changeOrigin: true,
     secure: false,
-    logLevel: 'debug',
-    // onProxyReq: (proxyReq, req, res) => {
+    logLevel: 'info',
+      // onProxyReq: (proxyReq, req, res) => {
     //   const cookieMap = {
     //     SID: '',
     //   };
@@ -16,7 +16,7 @@ const PROXY_CONFIG = {
     //   }
     //   proxyReq.setHeader('cookie', cookie);
     // },
-  },
+  }
 };
 
 module.exports = PROXY_CONFIG;

@@ -36,9 +36,13 @@ export class AuthService {
 
   login(email: string, password: string, rememberMe = false) {
     return this.loginService.login(email, password, rememberMe).pipe(
-      tap(token => this.tokenService.set(token)),
+      tap(token =>{
+        console.log("token校验通过",token)
+        return this.tokenService.set(token).getBearerToken();
+      }),
       map(() => this.check())
-    );
+    )
+    ;
   }
 
   refresh() {

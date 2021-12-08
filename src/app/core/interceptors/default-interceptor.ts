@@ -25,15 +25,18 @@ export class DefaultInterceptor implements HttpInterceptor {
 
   private handleOkReq(event: HttpEvent<any>): Observable<any> {
     if (event instanceof HttpResponse) {
+      if(event.status !==200){
+        return throwError("服务器异常");
+      }
       const body: any = event.body;
       // failure: { code: **, msg: 'failure' }
       // success: { code: 0,  msg: 'success', data: {} }
-      if (body && 'code' in body && body.code !== 0) {
-        if (body.msg) {
-          this.toast.error(body.msg);
-        }
-        return throwError([]);
+     
+      if(body.code === "500"){
+        this.toast.error(body.message);
+        return throwError(body.message);
       }
+      return of(event);
     }
     // Pass down event if everything is OK
     return of(event);

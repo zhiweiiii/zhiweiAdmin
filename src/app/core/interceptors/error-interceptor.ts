@@ -54,7 +54,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         this.router.navigateByUrl('/auth/login');
       }
     }
-
+    console.log("error")
     return throwError(error);
   }
 }

@@ -41,13 +41,21 @@ export class LoginComponent implements OnInit {
 
     this.auth
       .login(this.username?.value, this.password?.value, this.rememberMe?.value)
-      .pipe(filter(authenticated => authenticated))
+      .pipe(filter(authenticated =>{
+        console.log("auth",authenticated)
+        return authenticated
+      } ))
       .subscribe(
-        () => this.router.navigateByUrl('/'),
-        (errorRes: HttpErrorResponse) => {
-          if (errorRes.status === 422) {
+        () => {
+          console.log("success")
+          this.router.navigateByUrl('/')
+        },
+        err => {
+           console.log("2323",err)
+          if (err.status === 422) {
+            console.log("2323")
             const form = this.loginForm;
-            const errors = errorRes.error.errors;
+            const errors = err.error.errors;
             Object.keys(errors).forEach(key => {
               form.get(key === 'email' ? 'username' : key)?.setErrors({
                 remote: errors[key][0],

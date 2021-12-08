@@ -39,6 +39,7 @@ export abstract class BaseToken {
   }
 
   private hasAccessToken(): boolean {
+    console.log("value",!!this.access_token)
     return !!this.access_token;
   }
 
