@@ -12,6 +12,12 @@ export interface MyMenu extends MyRoute {
 }
 export declare type MyMenus = MyMenu[];
 
+export interface MenuCreate {
+  name :string;
+  path :string;
+  children: MenuCreate[];
+}
+
 @Component({
   selector: 'app-menu-menuList',
   templateUrl: './menu-list.component.html',
@@ -36,7 +42,25 @@ export class MenuMenuListComponent implements OnInit {
   }
 
   saveMenu() {
-    console.log(this.menus);
+    var result:MyMenus=JSON.parse(JSON.stringify(this.menus));
+    result =result.filter(menus=>{
+      if(!menus.completed){
+        return false;
+      }
+      menus.children=menus.children?.filter(children=>{
+        if(!children.completed){
+          return false;
+        }
+        return true;
+      })
+      delete menus.completed;
+      delete menus.id;
+      delete menus.id;
+      
+      return true;
+    });
+
+    console.log(result);
     this.toast.success("保存成功",'',{
        positionClass: "toast-center-center",
    });
