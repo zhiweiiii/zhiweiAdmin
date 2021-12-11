@@ -29,9 +29,9 @@ export class StartupService {
             // In a real app, you should get permissions and roles from the user information.
             this.setPermissions();
           }),
-          switchMap(() => (this.authService.check() ? this.authService.menu() : of({ menu: [] }))),
+          switchMap(() => ( this.authService.menu()  )),
           tap(response => {
-            this.setMenu(response);
+            this.setMenu(response.data);
           })
         )
         .subscribe(
@@ -41,9 +41,9 @@ export class StartupService {
     });
   }
 
-  private setMenu(response: { menu: Menu[] }) {
-    this.menuService.addNamespace(response.menu, 'menu');
-    this.menuService.set(response.menu);
+  private setMenu(response: Menu[] ) {
+    this.menuService.addNamespace(response);
+    this.menuService.set(response);
   }
 
   private setPermissions() {

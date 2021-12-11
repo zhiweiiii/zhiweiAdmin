@@ -1,0 +1,22 @@
+<!-- <page-header></page-header> -->
+<div>特别提醒：拖拽菜单以调整菜单顺序</div>
+<div class="example-button-row">
+<button mat-raised-button  color="primary" (click)="saveMenu()">保存菜单</button>
+</div>
+<div cdkDropList class="example-list" (cdkDropListDropped)="drop($event,menus)">
+<div *ngFor="let menu of menus" cdkDrag >
+    <section class="example-section" >
+      <mat-checkbox class="example-margin"  [(ngModel)]="menu.completed"  (ngModelChange)="setAll(menu)">{{ menu.name }}</mat-checkbox>
+      <span cdkDropList  (cdkDropListDropped)="drop($event,menu.children)" *ngIf="menu.children" >
+        <li  class="example-list-section" *ngFor="let children of menu.children" cdkDrag>
+          <mat-checkbox [(ngModel)]="children.completed"
+          (ngModelChange)="updateAllComplete(menu,children)">
+            {{ children.name }}
+          </mat-checkbox>
+        </li>
+      </span>
+    </section>
+</div>
+
+</div>
+

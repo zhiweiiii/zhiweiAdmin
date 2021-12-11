@@ -35,6 +35,7 @@ export class TopmenuPanelComponent implements OnInit, OnDestroy {
   constructor(private menu: MenuService, private router: Router) {}
 
   ngOnInit() {
+    console.log("init",this.items)
     this.items.forEach(item => {
       this.menuStates.push({ active: this.checkRoute(item), route: item.route });
     });

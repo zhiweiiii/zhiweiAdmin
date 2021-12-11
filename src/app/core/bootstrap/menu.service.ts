@@ -85,8 +85,9 @@ export class MenuService {
   private isLeafItem(item: MenuChildrenItem): boolean {
     const cond0 = item.route === undefined;
     const cond1 = item.children === undefined;
+    const cond3 = item.children === null;
     const cond2 = !cond1 && item.children?.length === 0;
-    return cond0 || cond1 || cond2;
+    return cond0 || cond1 || cond2 || cond3;
   }
 
   // Deep clone object could be jsonized
@@ -109,12 +110,16 @@ export class MenuService {
   /** Get the menu level. */
   getLevel(routeArr: string[]): string[] {
     let tmpArr: any[] = [];
+    console.log("this.menu$.value",this.menu$.value)
     this.menu$.value.forEach(item => {
+      
       // Breadth-first traverse
       let unhandledLayer = [{ item, parentNamePathList: [], realRouteArr: [] }];
       while (unhandledLayer.length > 0) {
+        
         let nextUnhandledLayer: any[] = [];
         for (const ele of unhandledLayer) {
+          console.log("item",ele)
           const eachItem = ele.item;
           const currentNamePathList = this.deepClone(ele.parentNamePathList).concat(eachItem.name);
           const currentRealRouteArr = this.deepClone(ele.realRouteArr).concat(eachItem.route);
@@ -124,6 +129,7 @@ export class MenuService {
             break;
           }
           if (!this.isLeafItem(eachItem)) {
+            console.log("isLeafItem",eachItem)
             const wrappedChildren = eachItem.children?.map(child => ({
               item: child,
               parentNamePathList: currentNamePathList,
@@ -139,11 +145,11 @@ export class MenuService {
   }
 
   /** Add namespace for translation. */
-  addNamespace(menu: Menu[] | MenuChildrenItem[], namespace: string) {
+  addNamespace(menu: Menu[] | MenuChildrenItem[]) {
     menu.forEach(menuItem => {
-      menuItem.name = `${namespace}.${menuItem.name}`;
+      menuItem.name = `${menuItem.name}`;
       if (menuItem.children && menuItem.children.length > 0) {
-        this.addNamespace(menuItem.children, menuItem.name);
+        this.addNamespace(menuItem.children);
       }
     });
   }

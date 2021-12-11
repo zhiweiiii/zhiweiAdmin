@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient,HttpParams } from '@angular/common/http';
-import { Token, User } from './interface';
+import { Token, User,ResultVo } from './interface';
 import { admin,Menu } from '@core';
 import { map, of } from 'rxjs';
 @Injectable({
@@ -31,7 +31,7 @@ export class LoginService {
   }
 
   menu() {
-    return this.http.get<{ menu: Menu[] }>('assets/data/menu.json?_t=' + Date.now());
-    // return this.http.get<{ menu: Menu[] }>('/me/menu');
+    // return this.http.get<{ menu: Menu[] }>('assets/data/menu.json?_t=' + Date.now());
+    return this.http.get< ResultVo<Menu[]>>('/api/mall/menu/getUserMenu');
   }
 }

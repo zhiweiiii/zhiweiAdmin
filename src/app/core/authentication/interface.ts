@@ -16,3 +16,11 @@ export interface Token {
   exp?: number;
   refresh_token?: string;
 }
+
+export interface ResultVo<T> {
+  [prop: string]: any;
+
+  code: string;
+  data: T;
+  message: string;
+}
