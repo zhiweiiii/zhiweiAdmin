@@ -8,6 +8,7 @@ import { RegisterComponent } from './sessions/register/register.component';
 import { Error403Component } from './sessions/403.component';
 import { Error404Component } from './sessions/404.component';
 import { Error500Component } from './sessions/500.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const COMPONENTS: any[] = [
   DashboardComponent,
@@ -20,7 +21,7 @@ const COMPONENTS: any[] = [
 const COMPONENTS_DYNAMIC: any[] = [];
 
 @NgModule({
-  imports: [SharedModule, RoutesRoutingModule],
+  imports: [SharedModule, RoutesRoutingModule,DragDropModule],
   declarations: [...COMPONENTS, ...COMPONENTS_DYNAMIC],
   entryComponents: COMPONENTS_DYNAMIC,
 })

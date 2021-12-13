@@ -4,10 +4,16 @@ import { ResultVo } from '@core/authentication/interface';
 import { HttpClient } from '@angular/common/http';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import { ToastrService } from 'ngx-toastr';
+import { MenuMenuListMenuAddComponent } from './menu-add/menu-add.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MenuMenuListMenuDeleteComponent } from './menu-delete/menu-delete.component';
 
 
 export interface MyMenu extends MyRoute {
   completed?:boolean;
+  route:String;
+  type:String;
+  pid:String;
   children?: MyMenus;
 }
 export declare type MyMenus = MyMenu[];
@@ -26,7 +32,7 @@ export interface MenuCreate {
 export class MenuMenuListComponent implements OnInit {
 
 
-  constructor(protected http: HttpClient,private toast: ToastrService) { }
+  constructor(protected http: HttpClient,private toast: ToastrService,public dialog: MatDialog) { }
 
   menus:MyMenus=[];
 
@@ -38,7 +44,9 @@ export class MenuMenuListComponent implements OnInit {
     this.http.get<ResultVo<MyMenus>>('/api/mall/menu/getMenuList',{}).subscribe(
       data => {
         this.menus=data.data;
+        console.log("menuDATA",this.menus)
       });
+
   }
 
   saveMenu() {
@@ -53,17 +61,17 @@ export class MenuMenuListComponent implements OnInit {
         }
         return true;
       })
-      delete menus.completed;
-      delete menus.id;
-      delete menus.id;
-      
+
       return true;
     });
-
-    console.log(result);
-    this.toast.success("保存成功",'',{
-       positionClass: "toast-center-center",
-   });
+    this.http.post<ResultVo<any>>('/api/mall/menu/saveUserMenu',result).subscribe(
+      (data)=>{
+      if(data.code ==="200"){
+        this.toast.success("保存成功",'',{
+          positionClass: "toast-center-center",
+      });
+      }
+    });
   }
 
   updateAllComplete(menu:MyMenu,children:MyMenu) {
@@ -81,5 +89,45 @@ export class MenuMenuListComponent implements OnInit {
   drop(event: CdkDragDrop<MyMenus>,menu:MyMenus) {
     moveItemInArray(menu, event.previousIndex, event.currentIndex);
   }
+
+  addDialog(menu?:MyMenu){
+    const dialogRef=this.dialog.open(MenuMenuListMenuAddComponent, {
+      height: 'auto',
+      width: '600px',
+      data: {menu,"isAdd":true},
+
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.code==="200"){
+      this.loadData();
+      }
+    });
+  }
+  editDialog(menu:MyMenu){
+    const dialogRef =this.dialog.open(MenuMenuListMenuAddComponent, {
+      height: 'auto',
+      width: '600px',
+      data: {menu,"isAdd":false},
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.code==="200"){
+        this.loadData();
+        }
+    });
+  }
+
+  deleteDialog(menu:MyMenu){
+    const dialogRef =this.dialog.open(MenuMenuListMenuDeleteComponent, {
+      height: 'auto',
+      width: '600px',
+      data: {menu:menu},
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.code==="200"){
+        this.loadData();
+        }
+    });
+  }
+
 
 }

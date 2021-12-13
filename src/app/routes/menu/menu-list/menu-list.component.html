@@ -1,22 +1,55 @@
-<!-- <page-header></page-header> -->
+<page-header></page-header>
 <div>特别提醒：拖拽菜单以调整菜单顺序</div>
 <div class="example-button-row">
-<button mat-raised-button  color="primary" (click)="saveMenu()">保存菜单</button>
+  <button mat-raised-button color="primary" (click)="saveMenu()">保存菜单</button>
+  <button mat-raised-button (click)="addDialog()">新增菜单</button>
 </div>
-<div cdkDropList class="example-list" (cdkDropListDropped)="drop($event,menus)">
-<div *ngFor="let menu of menus" cdkDrag >
-    <section class="example-section" >
-      <mat-checkbox class="example-margin"  [(ngModel)]="menu.completed"  (ngModelChange)="setAll(menu)">{{ menu.name }}</mat-checkbox>
-      <span cdkDropList  (cdkDropListDropped)="drop($event,menu.children)" *ngIf="menu.children" >
-        <li  class="example-list-section" *ngFor="let children of menu.children" cdkDrag>
-          <mat-checkbox [(ngModel)]="children.completed"
-          (ngModelChange)="updateAllComplete(menu,children)">
-            {{ children.name }}
-          </mat-checkbox>
-        </li>
-      </span>
-    </section>
-</div>
+<div cdkDropList class="example-list" (cdkDropListDropped)="drop($event, menus)">
+  <div class="" *ngFor="let menu of menus" cdkDrag>
+    <div class="menu-list">
+      <mat-checkbox
+        class="example-margin"
+        [(ngModel)]="menu.completed"
+        (ngModelChange)="setAll(menu)"
+        >{{ menu.name }}</mat-checkbox
+      >
+      <span class="example-spacer"></span>
 
-</div>
+      <button mat-icon-button (click)="addDialog(menu)">
+        <mat-icon>add</mat-icon>
+      </button>
+      <button mat-icon-button (click)="editDialog(menu)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button (click)="deleteDialog(menu)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+    <div
+      class="child-list"
+      cdkDropList
+      (cdkDropListDropped)="drop($event, menu.children)"
+      *ngIf="menu.children"
+    >
+      <div class="example-list-section" *ngFor="let children of menu.children" cdkDrag>
+        <mat-checkbox
+          [(ngModel)]="children.completed"
+          (ngModelChange)="updateAllComplete(menu, children)"
+        >
+          {{ children.name }}
+        </mat-checkbox>
+        <span class="example-spacer"></span>
 
+        <!-- <button mat-icon-button (click)="addDialog(menu)">
+          <mat-icon>add</mat-icon>
+        </button> -->
+        <button mat-icon-button (click)="editDialog(children)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="deleteDialog(children)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

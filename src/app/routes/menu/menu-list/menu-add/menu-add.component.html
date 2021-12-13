@@ -1,0 +1,28 @@
+<h1>新建一个菜单</h1>
+<form class="example-container" [formGroup]="menuForm" (ngSubmit)="onSubmit()" >
+<span>菜单名字: </span>
+<mat-form-field appearance="fill" required>
+  <mat-label>请输入菜单名字</mat-label>
+  <input matInput  formControlName="name">
+</mat-form-field>
+<br/>
+<span>路径: </span>
+<mat-form-field appearance="fill" required>
+  <mat-label>请输入路径</mat-label>
+  <input matInput formControlName="route">
+</mat-form-field>
+<br/>
+<span>类型: </span>
+<mat-form-field appearance="fill" required>
+  <mat-label>请选择类型</mat-label>
+  <mat-select formControlName="type">
+    <mat-option value="sub">父级菜单</mat-option>
+    <mat-option value="link">页面</mat-option>
+  </mat-select>
+</mat-form-field>
+<div class="example-button-row">
+  <button mat-raised-button color="primary" type="submit" >保存</button>
+</div>
+</form>
+
+
