@@ -1,20 +1,23 @@
-<page-header></page-header>
+<div fxLayout="row">
 
-<div cdkDropList  (cdkDropListDropped)="drop($event, tiles)">
-<mat-grid-list cols="5" rowHeight="100px">
+  <page-header style="width: 100%;"></page-header>
 
-  <mat-grid-tile
-      *ngFor="let tile of tiles"
-      [colspan]="3"
-      [rowspan]="tile.rows"
-      [style.background]="tile.color" cdkDrag>
-      <page-header *ngIf="tile.text==='3'">434</page-header>
-      <app-error-404  *ngIf="tile.text==='1'">23</app-error-404>
-  </mat-grid-tile>
-  <mat-grid-tile
-      [colspan]="2"
-      [rowspan]="1">
-    123
-  </mat-grid-tile>
-</mat-grid-list>
+</div>
+<div fxLayout="row" >
+
+  <div fxLayout="colum " fxFlex="70" class="content" >
+
+    <div cdkDropList (cdkDropListDropped)="drop($event, tiles)">
+      <div *ngFor="let tile of tiles" cdkDrag>
+        <app-dashboard-children *ngIf="tile.text==='3'"></app-dashboard-children>
+      </div>
+    </div>
+
+
+  </div>
+  <div fxLayout="colum" fxFlex class="right-content" >
+
+    <div>Second</div>
+  </div>
+
 </div>

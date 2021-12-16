@@ -1,0 +1,21 @@
+
+
+<div cdkDropList  (cdkDropListDropped)="drop($event, noteList)">
+<mat-accordion *ngFor="let note of noteList" >
+  <mat-expansion-panel  hideToggle cdkDrag>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{note.title}}-{{note.text}}
+      </mat-panel-title>
+      <mat-panel-description>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="example-list-section">
+      <span class="example-spacer"></span>
+      <button color="primary" mat-mini-fab (click)="finishNote(note)">
+        <mat-icon>done</mat-icon>
+      </button>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
+</div>

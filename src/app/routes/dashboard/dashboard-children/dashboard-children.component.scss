@@ -1,0 +1,12 @@
+.example-spacer {
+  display: flex;
+  flex: 1 1 auto;
+}
+
+.example-list-section{
+  display: flex;
+  flex-direction: row;
+  padding-left: 30px;
+  line-height: 36px;
+  width: 100%;
+}
